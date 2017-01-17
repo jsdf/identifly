@@ -1,7 +1,7 @@
 {
   "name": "identifly",
   "version": "0.0.0",
-  "description": "Hello Exponent!",
+  "description": "Identifly - Dragonflies and Damselflies of the NT",
   "author": null,
   "main": "main.js",
   "scripts": {
@@ -15,6 +15,7 @@
     "@exponent/samples": "~1.0.2",
     "@exponent/vector-icons": "~2.0.3",
     "exponent": "~11.0.2",
+    "knuth-shuffle": "^1.0.1",
     "react": "~15.3.2",
     "react-native": "git+https://github.com/exponentjs/react-native#sdk-11.0.3"
   },

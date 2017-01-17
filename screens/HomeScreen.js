@@ -1,16 +1,21 @@
 import React from 'react';
 import {
-  Image,
-  Linking,
   Platform,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  Dimensions,
 } from 'react-native';
 
-import { MonoText } from '../components/StyledText';
+import KenBurns from '../components/KenBurns';
+import Colors from '../constants/Colors';
+import assets from '../content/assets';
+
+const allSpecies = require('../content/species.json');
+const imageAssets = allSpecies.map(species =>
+  assets[species.images[0].filename]
+);
 
 export default class HomeScreen extends React.Component {
   static route = {
@@ -21,90 +26,35 @@ export default class HomeScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <ScrollView
-          style={styles.container}
-          contentContainerStyle={styles.contentContainer}>
-
-          <View style={styles.welcomeContainer}>
-            <Image
-              source={require('../assets/images/exponent-wordmark.png')}
-              style={styles.welcomeImage}
-            />
-          </View>
-
-
-          <View style={styles.getStartedContainer}>
-            {this._maybeRenderDevelopmentModeWarning()}
-
-            <Text style={styles.getStartedText}>
-              Get started by opening
-            </Text>
-
-            <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-              <MonoText style={styles.codeHighlightText}>
-                screens/HomeScreen.js
-              </MonoText>
-            </View>
-
-            <Text style={styles.getStartedText}>
-              Change this text and your app will automatically reload.
-            </Text>
-          </View>
-
-          <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>
-                Help, it didn’t automatically reload!
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-
-        <View style={styles.tabBarInfoContainer}>
-          <Text style={styles.tabBarInfoText}>
-            This is a tab bar. You can edit it in:
+      <View style={[styles.container, styles.contentContainer]}>
+        <KenBurns
+          imageAssets={imageAssets}
+          aspectWidth={16}
+          aspectHeight={9}
+          width={Dimensions.get('window').width}
+        />
+        <View style={styles.welcomeContainer}>
+          <Text style={styles.largeText}>
+            Identifly
           </Text>
+          <Text style={styles.developmentModeText}>
+            Dragonflies and Damselflies of the Top End
+          </Text>
+        </View>
 
-          <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-            <MonoText style={styles.codeHighlightText}>
-              navigation/RootNavigation.js
-            </MonoText>
-          </View>
+        <View style={styles.helpContainer}>
+          <TouchableOpacity onPress={this._handleFilterPress} style={styles.link}>
+            <Text style={styles.linkText}>
+              Find a Species
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
   }
 
-  _maybeRenderDevelopmentModeWarning() {
-    if (__DEV__) {
-      const learnMoreButton = (
-        <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
-          Learn more
-        </Text>
-      );
-
-      return (
-        <Text style={styles.developmentModeText}>
-          Development mode is enabled, your app will run slightly slower but
-          you have access to useful development tools. {learnMoreButton}.
-        </Text>
-      );
-    } else {
-      return (
-        <Text style={styles.developmentModeText}>
-          You are not in development mode, your app will run at full speed.
-        </Text>
-      );
-    }
-  }
-
-  _handleLearnMorePress = () => {
-    Linking.openURL('https://docs.getexponent.com/versions/latest/guides/development-mode');
-  }
-
-  _handleHelpPress = () => {
-    Linking.openURL('https://docs.getexponent.com/versions/latest/guides/up-and-running.html#can-t-see-your-changes');
+  _handleFilterPress = () => {
+    this.props.navigator.push('speciesFilter');
   }
 }
 
@@ -125,7 +75,6 @@ const styles = StyleSheet.create({
   welcomeContainer: {
     alignItems: 'center',
     marginTop: 10,
-    marginBottom: 20,
   },
   welcomeImage: {
     width: 200,
@@ -147,7 +96,7 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     paddingHorizontal: 4,
   },
-  getStartedText: {
+  largeText: {
     fontSize: 17,
     color: 'rgba(96,100,109, 1)',
     lineHeight: 23,
@@ -182,14 +131,18 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   helpContainer: {
-    marginTop: 15,
-    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 10,
+    alignSelf: 'stretch',
   },
-  helpLink: {
+  link: {
+    alignSelf: 'stretch',
     paddingVertical: 15,
+    backgroundColor: Colors.tabIconSelected,
   },
-  helpLinkText: {
+  linkText: {
+    textAlign: 'center',
     fontSize: 14,
-    color: '#2e78b7',
+    color: '#fff',
   },
 });

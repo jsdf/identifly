@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   StyleSheet,
-  View,
 } from 'react-native';
 import {
   Notifications,
@@ -40,9 +39,15 @@ export default class RootNavigation extends React.Component {
         </TabNavigationItem>
 
         <TabNavigationItem
-          id="matches"
+          id="speciesFilter"
+          renderIcon={isSelected => this._renderIcon('search', isSelected)}>
+          <StackNavigation initialRoute="speciesFilter" />
+        </TabNavigationItem>
+
+        <TabNavigationItem
+          id="speciesIndex"
           renderIcon={isSelected => this._renderIcon('book', isSelected)}>
-          <StackNavigation initialRoute="matches" />
+          <StackNavigation initialRoute="speciesIndex" />
         </TabNavigationItem>
 
         <TabNavigationItem

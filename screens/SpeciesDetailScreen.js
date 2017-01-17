@@ -1,13 +1,36 @@
 import React, { Component } from 'react';
 import {
   ListView,
-  StyleSheet,
   Text,
   View,
   Image,
 } from 'react-native';
+import styles from '../components/speciesStyles';
+import SpeciesTextContent from '../components/SpeciesTextContent';
 
-export default class Card extends Component {
+import assets from '../content/assets';
+
+export default class SpeciesMatchesScreen extends React.Component {
+  static route = {
+    navigationBar: {
+      title(params) {
+        return params.species.species;
+      },
+    },
+  }
+
+  render() {
+    return (
+      <SpeciesDetailView
+        species={this.props.route.params.species}
+        assets={assets}
+      />
+    );
+  }
+}
+
+
+class SpeciesDetailView extends Component {
   render() {
     const species = this.props.species;
     const assets = this.props.assets;
@@ -15,14 +38,7 @@ export default class Card extends Component {
     return (
       <View style={styles.card}>
         <ImagesCarousel images={species.images} assets={assets} />
-        <View style={[styles.paragraph, styles.sideMargins]}>
-          <Text style={styles.family}>{species.family}</Text>
-          <Text style={styles.species}>{species.species}</Text>
-        </View>
-
-        <View style={[styles.paragraph, styles.sideMargins]}>
-          <Text>{species.content}</Text>
-        </View>
+        <SpeciesTextContent species={species} />
       </View>
     );
   }
@@ -41,6 +57,7 @@ class ImagesCarousel extends React.PureComponent {
   render() {
     return (
       <ListView
+        enableEmptySections
         horizontal={true}
         style={styles.container}
         dataSource={this.state.dataSource}
@@ -68,53 +85,3 @@ const ImageCard = props => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  imageContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-    position: 'relative',
-  },
-  imageCanvas: {
-    resizeMode: 'contain',
-    height: 300,
-    width: 300,
-  },
-  rounded: {
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
-  },
-  sideMargins: {
-    marginLeft: 32,
-    marginRight: 32,
-  },
-  paragraph: {
-    marginBottom: 8,
-  },
-  family: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  species: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    fontStyle: 'italic',
-  },
-  card: {
-    flex: 1,
-    marginTop: 16,
-    marginBottom: 16,
-    marginLeft: 8,
-    marginRight: 8,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 16,
-  },
-  credit: {
-    marginTop: 4,
-    fontStyle: 'italic',
-  }
-});

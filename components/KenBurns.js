@@ -101,8 +101,6 @@ export default class KenBurns extends React.Component {
           height: heightForWidth * this.props.width,
           width: this.props.width,
           overflow: 'hidden',
-          borderWidth: 1,
-          borderColor: '#000',
         }}>
           <Image
             source={imageAssetNext}
@@ -128,7 +126,6 @@ export default class KenBurns extends React.Component {
             }}
           />
         </View>
-        <Text>{this.state.imageIndex}</Text>
       </View>
     );
   }

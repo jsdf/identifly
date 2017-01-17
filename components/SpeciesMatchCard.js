@@ -47,13 +47,5 @@ const ImageCard = props => {
      aspectHeight={3}
      width={Dimensions.get('window').width}
    />
-   /*
-    <View style={[speciesStyles.imageContainer, speciesStyles.paragraph]}>
-      <Image
-        source={imageAsset}
-        style={[speciesStyles.imageCanvas, speciesStyles.rounded]}
-      />
-    </View>
-    */
   );
 };

@@ -23,6 +23,10 @@ export default StyleSheet.create({
     marginLeft: 32,
     marginRight: 32,
   },
+  sideMarginsMini: {
+    marginLeft: 8,
+    marginRight: 8,
+  },
   paragraph: {
     marginBottom: 8,
   },

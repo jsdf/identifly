@@ -3,10 +3,13 @@ import {
   ListView,
   Text,
   View,
-  Image,
+  Dimensions,
+  ScrollView,
 } from 'react-native';
 import styles from '../components/speciesStyles';
 import SpeciesTextContent from '../components/SpeciesTextContent';
+import AspectRatioImage from '../components/AspectRatioImage';
+
 
 import assets from '../content/assets';
 
@@ -29,17 +32,30 @@ export default class SpeciesMatchesScreen extends React.Component {
   }
 }
 
+const captionHeight = 44;
+
+function getImageWidth(numImages) {
+  const width = Dimensions.get('window').width;
+  return numImages > 1 ? width * 0.9 : width;
+}
 
 class SpeciesDetailView extends Component {
   render() {
     const species = this.props.species;
     const assets = this.props.assets;
+    const imageWidth = getImageWidth(species.images.length);
 
     return (
-      <View style={styles.card}>
-        <ImagesCarousel images={species.images} assets={assets} />
+      <ScrollView>
+        <View style={{height: imageWidth * (3/4) + captionHeight}}>
+          <ImagesCarousel
+            images={species.images}
+            assets={assets}
+            width={imageWidth}
+          />
+        </View>
         <SpeciesTextContent species={species} />
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -59,10 +75,13 @@ class ImagesCarousel extends React.PureComponent {
       <ListView
         enableEmptySections
         horizontal={true}
-        style={styles.container}
         dataSource={this.state.dataSource}
         renderRow={(image) => 
-          <ImageCard image={image} assets={this.props.assets} />
+          <ImageCard
+            image={image}
+            assets={this.props.assets}
+            width={this.props.width}
+          />
         }
       />
     );
@@ -73,15 +92,19 @@ const ImageCard = props => {
   const imageAsset = props.assets[props.image.filename];
 
   return (
-    <View style={[styles.imageContainer, styles.paragraph]}>
-      <Image
-        source={imageAsset}
-        style={[styles.imageCanvas, styles.rounded]}
+    <View style={[styles.paragraph]}>
+      <AspectRatioImage
+        asset={imageAsset}
+        aspectWidth={4}
+        aspectHeight={3}
+        width={props.width}
       />
-      <Text style={[styles.credit, styles.sideMargins]}>
-        Image credit: {props.image.credit}
-        {props.image.note ? '\nNote: ' + props.image.note : ''}
-      </Text>
+      <View style={{height: captionHeight}}>
+        <Text style={[styles.credit, styles.sideMarginsMini]}>
+          Image credit: {props.image.credit}
+          {props.image.note ? '\nNote: ' + props.image.note : ''}
+        </Text>
+      </View>
     </View>
   );
 };

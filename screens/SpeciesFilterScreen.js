@@ -30,7 +30,7 @@ export default class SpeciesFilterScreen extends React.Component {
             marginRight: 10,
           },
         ]}>
-          <Text>What is the most prominant colour you can see?</Text>
+          <Text>What is the most prominent colour you can see?</Text>
         </View>
         <ColourList
           species={allSpecies}

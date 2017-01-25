@@ -11,6 +11,8 @@ const SpeciesTextContent = ({species}) => {
       <View style={[styles.paragraph, styles.sideMargins]}>
         <Text style={styles.family}>{species.family}</Text>
         <Text style={styles.species}>{species.species}</Text>
+        <Text>{species.type}</Text>
+        <Text>Common name: {species.common}</Text>
       </View>
 
       <View style={[styles.paragraph, styles.sideMargins]}>

@@ -3,13 +3,15 @@ import {
   Platform,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
   Dimensions,
 } from 'react-native';
 
+import {
+  withNavigation,
+} from '@exponent/ex-navigation';
 import KenBurns from '../components/KenBurns';
-import Colors from '../constants/Colors';
+import Button from '../components/Button';
 import assets from '../content/assets';
 
 const allSpecies = require('../content/species.json');
@@ -17,6 +19,7 @@ const imageAssets = allSpecies.map(species =>
   assets[species.images[0].filename]
 );
 
+@withNavigation
 export default class HomeScreen extends React.Component {
   static route = {
     navigationBar: {
@@ -29,8 +32,8 @@ export default class HomeScreen extends React.Component {
       <View style={[styles.container, styles.contentContainer]}>
         <KenBurns
           imageAssets={imageAssets}
-          aspectWidth={16}
-          aspectHeight={9}
+          aspectWidth={4}
+          aspectHeight={3}
           width={Dimensions.get('window').width}
         />
         <View style={styles.welcomeContainer}>
@@ -42,19 +45,24 @@ export default class HomeScreen extends React.Component {
           </Text>
         </View>
 
-        <View style={styles.helpContainer}>
-          <TouchableOpacity onPress={this._handleFilterPress} style={styles.link}>
-            <Text style={styles.linkText}>
-              Find a Species
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <Button onPress={this._handleFilterPress} type="primary">
+          Find a Species
+        </Button>
       </View>
     );
   }
 
   _handleFilterPress = () => {
-    this.props.navigator.push('speciesFilter');
+    this.props.navigation.performAction(({ tabs, stacks }) => {
+      tabs('mainTabset').jumpToTab('speciesFilter');
+    });
+
+    // defeat batching which runs action before stack nav created
+    setTimeout(() => {
+      this.props.navigation.performAction(({ tabs, stacks }) => {
+        stacks('speciesFilterStack').popToTop();
+      });
+    });
   }
 }
 
@@ -129,20 +137,5 @@ const styles = StyleSheet.create({
   },
   navigationFilename: {
     marginTop: 5,
-  },
-  helpContainer: {
-    marginTop: 10,
-    marginBottom: 10,
-    alignSelf: 'stretch',
-  },
-  link: {
-    alignSelf: 'stretch',
-    paddingVertical: 15,
-    backgroundColor: Colors.tabIconSelected,
-  },
-  linkText: {
-    textAlign: 'center',
-    fontSize: 14,
-    color: '#fff',
   },
 });

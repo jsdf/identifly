@@ -25,10 +25,7 @@ export default class SpeciesFilterScreen extends React.Component {
       <View style={styles.container}>
         <View style={[
           speciesStyles.paragraph,
-          {
-            marginLeft: 10,
-            marginRight: 10,
-          },
+          styles.sideMargins,
         ]}>
           <Text>What is the most prominent colour you can see?</Text>
         </View>
@@ -90,6 +87,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 15,
+  },
+  sideMargins: {
+    marginLeft: 10,
+    marginRight: 10,
   },
   listRow: {
     height: 44,

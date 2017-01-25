@@ -4,8 +4,13 @@ import {
   ListView,
   StyleSheet,
   TouchableHighlight,
+  Text,
+  Dimensions,
 } from 'react-native';
-import SpeciesMatchCard from '../components/SpeciesMatchCard';
+
+import speciesStyles from '../components/speciesStyles';
+import AspectRatioImage from '../components/AspectRatioImage';
+import Button from '../components/Button';
 
 import Router from '../navigation/Router';
 
@@ -70,15 +75,22 @@ class SpeciesList extends React.PureComponent {
       <ListView
         style={[styles.container, styles.white]}
         dataSource={this.state.dataSource}
-        renderRow={(species) => 
-          <TouchableHighlight onPress={() => this._gotoSpecies(species)}>
-            <View style={styles.white}>
-              <SpeciesMatchCard
-                species={species}
-                assets={this.props.assets}
-              />
-            </View>
-          </TouchableHighlight>
+        renderRow={
+          (species) => {
+            const onPress = () => this._gotoSpecies(species);
+
+            return (
+              <TouchableHighlight onPress={onPress}>
+                <View style={styles.white}>
+                  <SpeciesMatchCard
+                    species={species}
+                    assets={this.props.assets}
+                    onPress={onPress}
+                  />
+                </View>
+              </TouchableHighlight>
+            );
+          }
         }
       />
     );
@@ -89,13 +101,61 @@ class SpeciesList extends React.PureComponent {
   };
 }
 
+class SpeciesMatchCard extends React.Component {
+  render() {
+    const species = this.props.species;
+    const assets = this.props.assets;
+
+    return (
+      <View style={styles.card}>
+        <View style={styles.imageWrapper}>
+          <ImageCard image={species.images[0]} assets={assets} />
+        </View>
+        <View style={[styles.textContent, speciesStyles.sideMargins]}>
+          <Text style={speciesStyles.family}>{species.family}</Text>
+          <Text style={speciesStyles.species}>{species.species}</Text>
+        </View>
+
+        <Button onPress={this.props.onPress}>
+          More info
+        </Button>
+      </View>
+    );
+  }
+}
+
 const styles = StyleSheet.create({
   white: {
     backgroundColor: 'white',
   },
   container: {
     flex: 1,
-    paddingTop: 15,
+    // paddingTop: 15,
+  },
+  textContent: {
+    marginBottom: 8,
+  },
+  card: {
+    flex: 1,
+    marginBottom: 16,
+    backgroundColor: 'white',
+    borderBottomColor: '#666',
+    borderBottomWidth: 1,
+  },
+  imageWrapper: {
+    marginBottom: 8,
   },
 });
 
+const ImageCard = props => {
+  const imageAsset = props.assets[props.image.filename];
+
+  return (
+    <AspectRatioImage
+     asset={imageAsset}
+     aspectWidth={4}
+     aspectHeight={3}
+     width={Dimensions.get('window').width}
+   />
+  );
+};

@@ -16,13 +16,13 @@ import speciesStyles from './speciesStyles';
 Orchestration:
 
 img1 load
-img1 fadeIn,
-img2 load, wait 5000
-img2 fadeIn
-img1 remove, img3 load, wait 5000
-img3 fadeIn
-img2 remove, img4 load, wait 5000
-img4 fadeIn
+img1 wait 5000, img2 load
+img1 fadeOut
+img1 remove, img2 wait 5000, img3 load
+img2 fadeOut
+img2 remove, img3 wait 5000, img4 load
+img3 fadeOut
+img3 remove, img4 wait 5000, img5 load
 etc.
 
 */
@@ -39,27 +39,13 @@ function initState(props) {
   return {
     shuffledImages: knuthShuffle(props.imageAssets),
     images: [
-      imageState(0, props),
+      {index: 0, prepare: true, show: true},
     ],
   };
 }
 
-function imageState(index, props) {
-  return {
-    index: wrap(index, props.imageAssets.length - 1),
-  };
-}
-
-function updateOnImageShow(prevIndex, state, props) {
-  const images = [
-    imageState(prevIndex, props),
-    imageState(prevIndex + 1, props),
-  ];
-
-  return {
-    ...state,
-    images,
-  };
+function imageIndex(index, props) {
+  return wrap(index, props.imageAssets.length - 1);
 }
 
 export default class KenBurns extends React.Component {
@@ -84,9 +70,8 @@ export default class KenBurns extends React.Component {
     const height = heightForWidth * this.props.width;
     const width = this.props.width;
 
-    const images = this.state.images.map(({index}) => {
+    const images = this.state.images.map(({index, prepare, show}) => {
       const imageAsset = this.state.shuffledImages[index];
-      const first = !this._firstImageShown && index === 0;
       return (
         <KenBurnsImage
           key={index}
@@ -94,11 +79,15 @@ export default class KenBurns extends React.Component {
           image={imageAsset}
           height={height}
           width={width}
-          delay={first ? 0 : 5000}
-          onShow={this._onImageShow}
+          prepare={prepare}
+          show={show}
+          onHideStart={this._onImageHideStart}
+          onHideEnd={this._onImageHideEnd}
         />
       );
     });
+
+    images.reverse();
 
     return (
       <View style={speciesStyles.container}>
@@ -106,7 +95,6 @@ export default class KenBurns extends React.Component {
           height,
           width,
           overflow: 'hidden',
-          position: 'relative',
         }}>
           {images}
         </View>
@@ -114,59 +102,90 @@ export default class KenBurns extends React.Component {
     );
   }
 
-  _onImageShow = (index) => {
+  _onImageHideStart = (hidingIndex) => {
     if (this._unmounted) return;
-    this._firstImageShown = true;
-    this.setState((state, props) => {
-      return updateOnImageShow(index, state, props);
+    const nowPreparingIndex = imageIndex(hidingIndex + 1, this.props);
+    this.setState({
+      images: [
+        {index: hidingIndex, prepare: true, show: true},
+        {index: nowPreparingIndex, prepare: true, show: false},
+      ],
+    });
+  };
+
+  _onImageHideEnd = (justHiddenIndex) => {
+    if (this._unmounted) return;
+    const nowShowingIndex = imageIndex(justHiddenIndex + 1, this.props);
+    const nowLoadingIndex = imageIndex(justHiddenIndex + 2, this.props);
+    this.setState({
+      images: [
+        {index: nowShowingIndex, prepare: true, show: true},
+        {index: nowLoadingIndex, prepare: false, show: false},
+      ],
     });
   };
 }
 
 class KenBurnsImage extends React.Component {
   state = {
-    index: 0,
     zoomValue: new Animated.Value(1),
-    opacityValue: new Animated.Value(0),
+    opacityValue: new Animated.Value(1),
   };
 
+  componentWillUnmount() {
+    this._unmounted = true;
+  }
+
   componentDidMount() {
-    this._run();
+    this._handleChange({
+      show: false,
+      prepare: false,
+    });
   }
 
-
-  async _run() {
-    await Promise.all([
-      Exponent.Asset.fromModule(this.props.image).downloadAsync(),
-      wait(this.props.delay),
-    ]);
-    await this._show(this.state);
-    this.props.onShow(this.props.index);
+  componentDidUpdate(prevProps) {
+    this._handleChange(prevProps);
   }
 
-  async _show(state) {
+  _handleChange(prevProps) {
+    if (!prevProps.prepare && this.props.prepare) {
+      this._prepare();
+    }
+    if (!prevProps.show && this.props.show) {
+      this._show();
+    }
+  }
+
+  async _show() {
+    await wait(5000);
+    this._hide();
+  }
+
+  async _prepare() {
     const zoom = Animated.timing(
-      state.zoomValue,
+      this.state.zoomValue,
       {
         toValue: 1.2,
-        duration: 7000,
+        duration: 8000,
         easing: Easing.in(Easing.ease),
       },
     );
+    zoom.start();
+  }
 
-    const fadeIn = Animated.timing(
-      state.opacityValue,
+  async _hide() {
+    const fadeOut = Animated.timing(
+      this.state.opacityValue,
       {
-        toValue: 1,
+        toValue: 0,
         duration: 1000,
         easing: Easing.out(Easing.ease),
       },
     );
 
-    await new Promise(resolve => {
-      fadeIn.start(resolve);
-      zoom.start();
-    });
+    this.props.onHideStart(this.props.index);
+    await new Promise(resolve => fadeOut.start(resolve));
+    this.props.onHideEnd(this.props.index);
   }
 
   render() {

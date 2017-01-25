@@ -30,6 +30,9 @@ export default StyleSheet.create({
   paragraph: {
     marginBottom: 8,
   },
+  line: {
+    lineHeight: 18,
+  },
   family: {
     fontSize: 24,
     fontWeight: 'bold',

@@ -7,9 +7,7 @@ import {
   ScrollView,
 } from 'react-native';
 import styles from '../components/speciesStyles';
-import SpeciesTextContent from '../components/SpeciesTextContent';
 import AspectRatioImage from '../components/AspectRatioImage';
-
 
 import assets from '../content/assets';
 
@@ -38,6 +36,23 @@ function getImageWidth(numImages) {
   const width = Dimensions.get('window').width;
   return numImages > 1 ? width * 0.9 : width;
 }
+
+const SpeciesTextContent = ({species}) => {
+  return (
+    <View>
+      <View style={[styles.paragraph, styles.sideMargins]}>
+        <Text style={styles.family}>{species.family}</Text>
+        <Text style={styles.species}>{species.species}</Text>
+        <Text style={styles.line}>({species.type})</Text>
+        <Text style={styles.line}>Common name: {species.common}</Text>
+      </View>
+
+      <View style={[styles.paragraph, styles.sideMargins]}>
+        <Text>{species.content}</Text>
+      </View>
+    </View>
+  );
+};
 
 class SpeciesDetailView extends Component {
   render() {

@@ -43,15 +43,29 @@ const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 class SpeciesList extends React.PureComponent {
   constructor(props) {
     super(props);
-    this._speciesByColour = {};
-    this.props.species.forEach((s) => {
-      s.bodycolours.forEach((colour) => {
-        if (this._speciesByColour[colour] == null) {
-          this._speciesByColour[colour] = [];
+    this._speciesByColour0 = {};
+    this._speciesByColour1 = {};
+
+
+    for (var si = 0; si < this.props.species.length; si++) {
+      const s = this.props.species[si];
+      for (let image of s.images) {
+        if (image.colours[0]) {
+          const c0 = image.colours[0];
+          if (this._speciesByColour0[c0] == null) {
+            this._speciesByColour0[c0] = [];
+          }
+          this._speciesByColour0[c0].push(si);
         }
-        this._speciesByColour[colour].push(s);
-      });
-    });
+        if (image.colours[1]) {
+          const c1 = image.colours[1];
+          if (this._speciesByColour1[c1] == null) {
+            this._speciesByColour1[c1] = [];
+          }
+          this._speciesByColour1[c1].push(si);
+        }
+      }
+    }
 
     this.state = {
       dataSource: this._getRows(this.props),
@@ -66,7 +80,14 @@ class SpeciesList extends React.PureComponent {
 
   _getRows(props) {
     return ds.cloneWithRows(
-      this._speciesByColour[props.route.params.colour]
+      Array.from(
+        new Set(
+          [].concat(
+            this._speciesByColour0[props.route.params.colour],
+            this._speciesByColour1[props.route.params.colour]
+          )
+        )
+      ).map(si => this.props.species[si])
     );
   }
 

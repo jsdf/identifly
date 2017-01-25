@@ -44,12 +44,24 @@ class ColourList extends React.PureComponent {
     super(props);
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-    const colours = new Set();
-    const addColourToSet = c => colours.add(c);
-    this.props.species.forEach(s => s.bodycolours.map(addColourToSet));
+    const colours = new Map();
+
+    for (let s of this.props.species) {
+      for (let image of s.images) {
+        for (let c of image.colours) {
+          let count = colours.get(c) || 0;
+          count++;
+          colours.set(c, count);
+        }
+      }
+    }
+
+    const coloursSorted = Array.from(colours.entries())
+      .sort((a, b) => a[1] < b[1] ? 1 : -1) // descending
+      .map(([name]) => name);
 
     this.state = {
-      dataSource: ds.cloneWithRows(Array.from(colours.values())),
+      dataSource: ds.cloneWithRows(coloursSorted),
     };
   }
 

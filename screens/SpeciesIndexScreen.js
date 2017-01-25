@@ -34,9 +34,30 @@ export default class SpeciesIndexScreen extends React.Component {
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
+function firstMatchIndex(matchPositions) {
+  let best = Infinity;
+  for (var i = 0; i < matchPositions.length; i++) {
+    if (matchPositions[i] !== -1 && matchPositions[i] < best) {
+      best = matchPositions[i];
+    }
+  }
+  if (best === Infinity) {
+    return -1;
+  }
+  return best;
+}
+
 class SpeciesList extends React.PureComponent {
   constructor(props) {
     super(props);
+
+    this._index = [];
+    for (var i = 0; i < this.props.species.length; i++) {
+      const s = this.props.species[i];
+      this._index.push(
+        `${s.family} ${s.species}`.toLowerCase().split(' ')
+      );
+    }
 
     this.state = this._getNextStateWithFilter(
       props,
@@ -49,11 +70,20 @@ class SpeciesList extends React.PureComponent {
   }
 
   _getFilteredDataSource = (species, filterText) => {
+    const matchText = filterText.toLowerCase();
+    const matcher = w => w.indexOf(matchText);
+
     return ds.cloneWithRows(
-      species.filter(s =>
-        `${s.family} ${s.species}`.toLowerCase()
-          .includes(filterText.toLowerCase())
-      )
+      species.map((s, si) => {
+        const matchPositions = this._index[si].map(matcher);
+        return [
+          firstMatchIndex(matchPositions),
+          s,
+        ];
+      })
+      .filter(match => match[0] !== -1)
+      .sort((a, b) => a[0] < b[0] ? -1 : 1)
+      .map(match => match[1])
     );
   };
 
@@ -68,6 +98,7 @@ class SpeciesList extends React.PureComponent {
     return (
       <View style={[styles.container, styles.white]}>
         {this._renderHeader()}
+        <View style={styles.line} />
         <ListView
           enableEmptySections
           style={styles.listTable}
@@ -94,7 +125,7 @@ class SpeciesList extends React.PureComponent {
           <Text>{species.family}</Text>
           <Text style={styles.speciesText}>{species.species}</Text>
           </View>
-        <View style={styles.separator} />
+        <View style={styles.line} />
       </View>
     </TouchableHighlight>
   );
@@ -116,17 +147,22 @@ const styles = StyleSheet.create({
     margin: 10,
     height: 40,
     padding: 10,
-    borderColor: '#ccc',
-    borderRadius: 20,
-    borderWidth: 1,
+    borderBottomColor: '#ccc',
+    // borderRadius: 20,
+    borderBottomWidth: 1,
   },
   container: {
     flex: 1,
   },
+  line: {
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    height: StyleSheet.hairlineWidth,
+  },
   listTable: {
   },
   listCell: {
-    padding: 6,
+    padding: 8,
+    height: 50,
   },
   separator: {
     backgroundColor: 'rgba(0, 0, 0, 0.1)',

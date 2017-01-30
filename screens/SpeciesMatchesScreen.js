@@ -14,17 +14,38 @@ import { EvilIcons } from '@exponent/vector-icons';
 import speciesStyles from '../components/speciesStyles';
 import AspectRatioImage from '../components/AspectRatioImage';
 import firstCap from '../utils/firstCap';
+import getColours from '../utils/getColours';
+import getSpeciesByColour from '../utils/getSpeciesByColour';
+import simpleMemoize from '../utils/simpleMemoize';
 
 import Router from '../navigation/Router';
 
 const allSpecies = require('../content/species.json');
 import assets from '../content/assets';
 
+function getColoursMap() {
+  const coloursSorted = getColours(getSpeciesByColour(allSpecies));
+  const coloursMap = {};
+  coloursSorted.forEach(c => coloursMap[c.id] = c);
+  return coloursMap;
+}
+
+const getColoursMapMemo = simpleMemoize(getColoursMap);
+
+function getColourLabel(id) {
+  const coloursMap = getColoursMapMemo();
+  if (coloursMap[id]) {
+    return coloursMap[id].label;
+  }
+  console.warn(`missing colour ${id}`);
+  return '';
+}
+
 export default class SpeciesMatchesScreen extends React.Component {
   static route = {
     navigationBar: {
       title(params) {
-        return `Matching Species (${params.colour})`;
+        return `Matching Species (${getColourLabel(params.colour)})`;
       },
     },
   }
@@ -46,29 +67,8 @@ const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 class SpeciesList extends React.PureComponent {
   constructor(props) {
     super(props);
-    this._speciesByColour0 = {};
-    this._speciesByColour1 = {};
+    this._speciesByColour = getSpeciesByColour(allSpecies);
 
-
-    for (var si = 0; si < this.props.species.length; si++) {
-      const s = this.props.species[si];
-      for (let image of s.images) {
-        if (image.colours[0]) {
-          const c0 = image.colours[0];
-          if (this._speciesByColour0[c0] == null) {
-            this._speciesByColour0[c0] = [];
-          }
-          this._speciesByColour0[c0].push(si);
-        }
-        if (image.colours[1]) {
-          const c1 = image.colours[1];
-          if (this._speciesByColour1[c1] == null) {
-            this._speciesByColour1[c1] = [];
-          }
-          this._speciesByColour1[c1].push(si);
-        }
-      }
-    }
 
     this.state = {
       dataSource: this._getRows(this.props),
@@ -83,14 +83,9 @@ class SpeciesList extends React.PureComponent {
 
   _getRows(props) {
     return ds.cloneWithRows(
-      Array.from(
-        new Set(
-          [].concat(
-            this._speciesByColour0[props.route.params.colour],
-            this._speciesByColour1[props.route.params.colour]
-          )
-        )
-      ).map(si => this.props.species[si])
+      this._speciesByColour[props.route.params.colour]
+        .sort((a, b) => a.weight < b.weight ? -1 : 1)
+        .map(({speciesIndex}) => this.props.species[speciesIndex])
     );
   }
 

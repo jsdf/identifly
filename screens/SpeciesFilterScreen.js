@@ -10,8 +10,23 @@ import {
 import Router from '../navigation/Router';
 import speciesStyles from '../components/speciesStyles';
 
-const allSpecies = require('../content/species.json');
+import firstCap from '../utils/firstCap';
+import getSpeciesByColour from '../utils/getSpeciesByColour';
+import getColours from '../utils/getColours';
 import assets from '../content/assets';
+const allSpecies = require('../content/species.json');
+
+const COLOURMAP = {
+  black: '#110F02',
+  blue: '#B6E1F5',
+  bronze: '#B7603B',
+  brown: '#9E4C2A',
+  green: '#A0B055',
+  orange: '#FB9332',
+  purple: '#7D1637',
+  red: '#EE3425',
+  yellow: '#FDDB35',
+};
 
 export default class SpeciesFilterScreen extends React.Component {
   static route = {
@@ -44,21 +59,7 @@ class ColourList extends React.PureComponent {
     super(props);
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-    const colours = new Map();
-
-    for (let s of this.props.species) {
-      for (let image of s.images) {
-        for (let c of image.colours) {
-          let count = colours.get(c) || 0;
-          count++;
-          colours.set(c, count);
-        }
-      }
-    }
-
-    const coloursSorted = Array.from(colours.entries())
-      .sort((a, b) => a[1] < b[1] ? 1 : -1) // descending
-      .map(([name]) => name);
+    const coloursSorted = getColours(getSpeciesByColour(allSpecies));
 
     this.state = {
       dataSource: ds.cloneWithRows(coloursSorted),
@@ -70,16 +71,18 @@ class ColourList extends React.PureComponent {
       <ListView
         style={[styles.container, styles.white]}
         dataSource={this.state.dataSource}
-        renderRow={(colour) =>
+        renderRow={({id, colours, label}) =>
           <TouchableHighlight
-            onPress={() => this._filterByColour(colour)}
-            style={styles.listRow}
+            onPress={() => this._filterByColour(id)}
           >
-            <View style={styles.white}>
-              <View style={styles.listCell}>
-                <Text>{colour}</Text>
+            <View style={styles.listRow}>
+              <Colours colours={colours} />
+              <View style={styles.white}>
+                <View style={styles.listCell}>
+                  <Text>{label}</Text>
+                </View>
+                <View style={styles.separator} />
               </View>
-              <View style={styles.separator} />
             </View>
           </TouchableHighlight>
         }
@@ -91,6 +94,28 @@ class ColourList extends React.PureComponent {
     this.props.navigator.push(Router.getRoute('matches', {colour}));
   };
 }
+
+const Colours = ({colours}) => (
+  <View style={{
+    flexDirection: 'row',
+    width: 40,
+    height: 40,
+    overflow: 'hidden',
+  }}>
+    {
+      colours.map(colour =>
+        <View
+          key={colour}
+          style={{
+            width: 40 / colours.length,
+            height: 40,
+            backgroundColor: COLOURMAP[colour] || colour,
+          }}
+        />
+      )
+    }
+  </View>
+);
 
 const styles = StyleSheet.create({
   white: {
@@ -106,8 +131,11 @@ const styles = StyleSheet.create({
   },
   listRow: {
     height: 44,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   listCell: {
+    flex: 1,
     justifyContent: 'center',
     height: 43,
     paddingLeft: 10,

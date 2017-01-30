@@ -36,7 +36,7 @@ export default class SpeciesFilterScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={styles.mainContainer}>
         <View style={[
           speciesStyles.paragraph,
           styles.sideMargins,
@@ -74,14 +74,16 @@ class ColourList extends React.PureComponent {
           <TouchableHighlight
             onPress={() => this._filterByColour(id)}
           >
-            <View style={styles.listRow}>
-              <Colours colours={colours} />
-              <View style={styles.white}>
-                <View style={styles.listCell}>
-                  <Text>{label}</Text>
+            <View>
+              <View style={styles.listRow}>
+                <Colours colours={colours} />
+                <View style={[styles.white, styles.listCell]}>
+                  <View>
+                    <Text>{label}</Text>
+                  </View>
                 </View>
-                <View style={styles.separator} />
               </View>
+              <View style={styles.separator} />
             </View>
           </TouchableHighlight>
         }
@@ -120,25 +122,26 @@ const styles = StyleSheet.create({
   white: {
     backgroundColor: 'white',
   },
-  container: {
+  mainContainer: {
     flex: 1,
     paddingTop: 15,
   },
+  container: {
+    flex: 1,
+  },
   sideMargins: {
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: 16,
+    marginRight: 16,
   },
   listRow: {
+    marginLeft: 16,
     height: 44,
     flexDirection: 'row',
     alignItems: 'center',
   },
   listCell: {
-    flex: 1,
-    justifyContent: 'center',
-    height: 43,
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingLeft: 8,
+    paddingRight: 8,
   },
   separator: {
     backgroundColor: 'rgba(0, 0, 0, 0.1)',

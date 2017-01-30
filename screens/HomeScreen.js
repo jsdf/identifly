@@ -12,7 +12,9 @@ import {
 } from '@exponent/ex-navigation';
 import KenBurns from '../components/KenBurns';
 import Button from '../components/Button';
+import ListButton from '../components/ListButton';
 import assets from '../content/assets';
+import Router from '../navigation/Router';
 
 const allSpecies = require('../content/species.json');
 const imageAssets = allSpecies.map(species =>
@@ -37,33 +39,55 @@ export default class HomeScreen extends React.Component {
           width={Dimensions.get('window').width}
         />
         <View style={styles.welcomeContainer}>
-          <Text style={styles.largeText}>
+          <Text style={[styles.title]}>
             Identifly
           </Text>
-          <Text style={styles.developmentModeText}>
-            Dragonflies and Damselflies of the Top End
+          <Text style={[styles.lightText, styles.subtitle]}>
+            Dragonflies and Damselflies
+          </Text>
+          <Text style={[styles.lightText, styles.subtitle]}>
+            of the Top End
           </Text>
         </View>
 
-        <Button onPress={this._handleFilterPress} type="primary">
-          Find a Species
-        </Button>
+        <View style={styles.mainButton}>
+          <Button onPress={this._handleFilterPress} type="primary">
+            Find a Species
+          </Button>
+        </View>
+
+        <View style={styles.buttonList}>
+          <ListButton onPress={this._goToIntro}>
+            Introduction
+          </ListButton>
+          <ListButton onPress={this._goToAck}>
+            Acknowledgements
+          </ListButton>
+        </View>
       </View>
     );
   }
 
+  _goToIntro = () => {
+    this.props.navigator.push(Router.getRoute('intro'));
+  };
+
+  _goToAck = () => {
+    this.props.navigator.push(Router.getRoute('ack'));
+  };
+
   _handleFilterPress = () => {
-    this.props.navigation.performAction(({ tabs, stacks }) => {
+    this.props.navigation.performAction(({ tabs }) => {
       tabs('mainTabset').jumpToTab('speciesFilter');
     });
 
     // defeat batching which runs action before stack nav created
     setTimeout(() => {
-      this.props.navigation.performAction(({ tabs, stacks }) => {
+      this.props.navigation.performAction(({ stacks }) => {
         stacks('speciesFilterStack').popToTop();
       });
     });
-  }
+  };
 }
 
 const styles = StyleSheet.create({
@@ -71,18 +95,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  developmentModeText: {
-    marginBottom: 20,
-    color: 'rgba(0,0,0,0.4)',
+  buttonList: {
+    borderBottomColor: '#ccc',
+    borderBottomWidth: 1,
+  },
+  mainButton: {
+    marginBottom: 16,
+  },
+  lightText: {
+    color: 'rgba(0,0,0,0.5)',
     fontSize: 15,
-    textAlign: 'center',
   },
   contentContainer: {
-    paddingTop: 80,
+    paddingTop: 44,
   },
   welcomeContainer: {
-    alignItems: 'center',
-    marginTop: 10,
+    margin: 16,
   },
   welcomeImage: {
     width: 200,
@@ -93,49 +121,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 50,
   },
-  homeScreenFilename: {
-    marginVertical: 7,
-  },
-  codeHighlightText: {
-    color: 'rgba(96,100,109, 0.8)',
-  },
-  codeHighlightContainer: {
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    borderRadius: 3,
-    paddingHorizontal: 4,
-  },
   largeText: {
     fontSize: 17,
     color: 'rgba(96,100,109, 1)',
     lineHeight: 23,
     textAlign: 'center',
   },
-  tabBarInfoContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: {height: -3},
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 20,
-      },
-    }),
-    alignItems: 'center',
-    backgroundColor: '#fbfbfb',
-    paddingVertical: 20,
+  title: {
+    lineHeight: 22,
+    fontSize: 24,
+    paddingTop: 2,
   },
-  tabBarInfoText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
-  },
-  navigationFilename: {
-    marginTop: 5,
+  subtitle: {
+    fontSize: 18,
   },
 });

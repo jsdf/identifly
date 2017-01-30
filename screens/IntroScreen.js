@@ -24,9 +24,7 @@ export default class IntroScreen extends React.Component {
       </ScrollView>
     );
   }
-
 }
-
 
 const styles = StyleSheet.create({
   sideMargins: {

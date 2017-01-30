@@ -9,8 +9,7 @@ import {
   Dimensions,
 } from 'react-native';
 
-import { EvilIcons } from '@exponent/vector-icons';
-
+import ListButton from '../components/ListButton';
 import speciesStyles from '../components/speciesStyles';
 import AspectRatioImage from '../components/AspectRatioImage';
 import firstCap from '../utils/firstCap';
@@ -136,47 +135,18 @@ class SpeciesMatchCard extends React.Component {
           <Text style={speciesStyles.species}>{species.species}</Text>
         </View>
 
-        <View style={styles.buttonRow}>
-          <TouchableOpacity
-            onPress={this.props.onPress}
-            style={[
-              styles.button,
-            ]}
-          >
-            <Text style={styles.buttonText}>
-              More info 
-            </Text>
-            <EvilIcons name="chevron-right" size={32} color="black"  style={styles.buttonIcon}/>
 
-          </TouchableOpacity>
-        </View>
+        <ListButton
+          onPress={this.props.onPress}
+        >
+          More info 
+        </ListButton>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  buttonRow: {
-    borderTopColor: '#ccc',
-    borderTopWidth: 1,
-  },
-  button: {
-    height: 44,
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  buttonIcon:  {
-    width: 50,
-    textAlign: 'right',
-  },
-  buttonText: {
-    flex: 1,
-    textAlign: 'left',
-    paddingTop: 8,
-    paddingBottom: 8,
-    paddingLeft: 16,
-    fontSize: 14,
-  },
   white: {
     backgroundColor: 'white',
   },

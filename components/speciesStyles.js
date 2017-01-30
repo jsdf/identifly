@@ -20,8 +20,8 @@ export default StyleSheet.create({
     borderTopRightRadius: 16,
   },
   sideMargins: {
-    marginLeft: 32,
-    marginRight: 32,
+    marginLeft: 16,
+    marginRight: 16,
   },
   sideMarginsMini: {
     marginLeft: 8,
@@ -33,13 +33,16 @@ export default StyleSheet.create({
   line: {
     lineHeight: 18,
   },
-  family: {
+  common: {
+    lineHeight: 22,
     fontSize: 24,
-    fontWeight: 'bold',
+    paddingTop: 2,
+  },
+  family: {
+    fontSize: 18,
   },
   species: {
-    fontSize: 32,
-    fontWeight: 'bold',
+    fontSize: 18,
     fontStyle: 'italic',
   },
   card: {
@@ -48,8 +51,6 @@ export default StyleSheet.create({
     marginBottom: 16,
     marginLeft: 8,
     marginRight: 8,
-    // justifyContent: 'center',
-    // alignItems: 'center',
     backgroundColor: 'white',
     borderRadius: 100,
   },

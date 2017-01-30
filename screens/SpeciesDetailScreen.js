@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import styles from '../components/speciesStyles';
 import AspectRatioImage from '../components/AspectRatioImage';
+import firstCap from '../utils/firstCap';
 
 import assets from '../content/assets';
 
@@ -41,10 +42,10 @@ const SpeciesTextContent = ({species}) => {
   return (
     <View>
       <View style={[styles.paragraph, styles.sideMargins]}>
+        <Text style={styles.common}>{firstCap(species.common)}</Text>
         <Text style={styles.family}>{species.family}</Text>
         <Text style={styles.species}>{species.species}</Text>
         <Text style={styles.line}>({species.type})</Text>
-        <Text style={styles.line}>Common name: {species.common}</Text>
       </View>
 
       <View style={[styles.paragraph, styles.sideMargins]}>

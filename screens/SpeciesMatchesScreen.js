@@ -4,13 +4,16 @@ import {
   ListView,
   StyleSheet,
   TouchableHighlight,
+  TouchableOpacity,
   Text,
   Dimensions,
 } from 'react-native';
 
+import { EvilIcons } from '@exponent/vector-icons';
+
 import speciesStyles from '../components/speciesStyles';
 import AspectRatioImage from '../components/AspectRatioImage';
-import Button from '../components/Button';
+import firstCap from '../utils/firstCap';
 
 import Router from '../navigation/Router';
 
@@ -94,7 +97,7 @@ class SpeciesList extends React.PureComponent {
   render() {
     return (
       <ListView
-        style={[styles.container, styles.white]}
+        style={[styles.container, styles.tan]}
         dataSource={this.state.dataSource}
         renderRow={
           (species) => {
@@ -102,7 +105,7 @@ class SpeciesList extends React.PureComponent {
 
             return (
               <TouchableHighlight onPress={onPress}>
-                <View style={styles.white}>
+                <View style={styles.tan}>
                   <SpeciesMatchCard
                     species={species}
                     assets={this.props.assets}
@@ -133,21 +136,57 @@ class SpeciesMatchCard extends React.Component {
           <ImageCard image={species.images[0]} assets={assets} />
         </View>
         <View style={[styles.textContent, speciesStyles.sideMargins]}>
+          <Text style={speciesStyles.common}>{firstCap(species.common)}</Text>
           <Text style={speciesStyles.family}>{species.family}</Text>
           <Text style={speciesStyles.species}>{species.species}</Text>
         </View>
 
-        <Button onPress={this.props.onPress}>
-          More info
-        </Button>
+        <View style={styles.buttonRow}>
+          <TouchableOpacity
+            onPress={this.props.onPress}
+            style={[
+              styles.button,
+            ]}
+          >
+            <Text style={styles.buttonText}>
+              More info 
+            </Text>
+            <EvilIcons name="chevron-right" size={32} color="black"  style={styles.buttonIcon}/>
+
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  buttonRow: {
+    borderTopColor: '#ccc',
+    borderTopWidth: 1,
+  },
+  button: {
+    height: 44,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  buttonIcon:  {
+    width: 50,
+    textAlign: 'right',
+  },
+  buttonText: {
+    flex: 1,
+    textAlign: 'left',
+    paddingTop: 8,
+    paddingBottom: 8,
+    paddingLeft: 16,
+    fontSize: 14,
+  },
   white: {
     backgroundColor: 'white',
+  },
+  tan: {
+    backgroundColor: '#E9EBEE',
   },
   container: {
     flex: 1,
@@ -158,9 +197,11 @@ const styles = StyleSheet.create({
   },
   card: {
     flex: 1,
-    marginBottom: 16,
+    marginBottom: 8,
     backgroundColor: 'white',
-    borderBottomColor: '#666',
+    borderTopColor: '#ccc',
+    borderTopWidth: 1,
+    borderBottomColor: '#ccc',
     borderBottomWidth: 1,
   },
   imageWrapper: {
@@ -172,11 +213,11 @@ const ImageCard = props => {
   const imageAsset = props.assets[props.image.filename];
 
   return (
-    <AspectRatioImage
-     asset={imageAsset}
-     aspectWidth={4}
-     aspectHeight={3}
-     width={Dimensions.get('window').width}
-   />
+      <AspectRatioImage
+       asset={imageAsset}
+       aspectWidth={4}
+       aspectHeight={3}
+       width={Dimensions.get('window').width}
+     />
   );
 };

@@ -4,23 +4,37 @@ import {
   Image,
 } from 'react-native';
 
-const AspectRatioImage = props => {
-  const heightForWidth = props.aspectHeight / props.aspectWidth;
-  return (
-    <View style={{
-      height: heightForWidth * props.width,
-      width: props.width,
-    }}>
-      <Image
-        source={props.asset}
+export default class AspectRatioImage extends React.Component {
+  render() {
+    const {props} = this;
+    const heightForWidth = props.aspectHeight / props.aspectWidth;
+    return (
+      <View
+        ref={this._setRef}
         style={{
-          resizeMode: 'cover',
           height: heightForWidth * props.width,
           width: props.width,
         }}
-      />
-    </View>
-  );
-};
+      >
+        <Image
+          source={props.asset}
+          style={{
+            resizeMode: 'cover',
+            height: heightForWidth * props.width,
+            width: props.width,
+          }}
+        />
+      </View>
+    );
+  }
 
-export default AspectRatioImage;
+  setNativeProps(props) {
+    if (this._ref) {
+      this._ref.setNativeProps(props);
+    }
+  }
+
+  _setRef = (el) => {
+    this._ref = el;
+  }
+}

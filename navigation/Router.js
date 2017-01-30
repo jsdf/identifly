@@ -8,6 +8,8 @@ import SpeciesMatchesScreen from '../screens/SpeciesMatchesScreen';
 import SpeciesDetailScreen from '../screens/SpeciesDetailScreen';
 import SpeciesIndexScreen from '../screens/SpeciesIndexScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import IntroScreen from '../screens/IntroScreen';
+import AckScreen from '../screens/AckScreen';
 import RootNavigation from './RootNavigation';
 
 export default createRouter(() => ({
@@ -17,5 +19,7 @@ export default createRouter(() => ({
   speciesDetail: () => SpeciesDetailScreen,
   speciesIndex: () => SpeciesIndexScreen,
   settings: () => SettingsScreen,
+  intro: () => IntroScreen,
+  ack: () => AckScreen,
   rootNavigation: () => RootNavigation,
 }));

@@ -10,6 +10,7 @@ import {
 
 import Router from '../navigation/Router';
 
+import firstCap from '../utils/firstCap';
 const allSpecies = require('../content/species.json');
 import assets from '../content/assets';
 
@@ -55,7 +56,7 @@ class SpeciesList extends React.PureComponent {
     for (var i = 0; i < this.props.species.length; i++) {
       const s = this.props.species[i];
       this._index.push(
-        `${s.family} ${s.species}`.toLowerCase().split(' ')
+        `${s.common} ${s.family} ${s.species}`.toLowerCase().split(' ')
       );
     }
 
@@ -122,6 +123,7 @@ class SpeciesList extends React.PureComponent {
     <TouchableHighlight onPress={() => this._gotoSpecies(species)}>
       <View style={styles.white}>
         <View style={styles.listCell}>
+          <Text style={styles.common}>{firstCap(species.common)}</Text>
           <Text>{species.family}</Text>
           <Text style={styles.speciesText}>{species.species}</Text>
           </View>
@@ -144,9 +146,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   searchInput: {
-    margin: 10,
-    height: 40,
-    padding: 10,
+    height: 44,
+    padding: 8,
     borderBottomColor: '#ccc',
     // borderRadius: 20,
     borderBottomWidth: 1,
@@ -161,8 +162,9 @@ const styles = StyleSheet.create({
   listTable: {
   },
   listCell: {
+    justifyContent: 'center',
     padding: 8,
-    height: 50,
+    height: 80,
   },
   separator: {
     backgroundColor: 'rgba(0, 0, 0, 0.1)',
@@ -171,6 +173,9 @@ const styles = StyleSheet.create({
   },
   speciesText: {
     fontStyle: 'italic',
+  },
+  common: {
+    marginBottom: 4,
   },
 });
 

@@ -10,7 +10,6 @@ import {
 import Router from '../navigation/Router';
 import speciesStyles from '../components/speciesStyles';
 
-import firstCap from '../utils/firstCap';
 import getSpeciesByColour from '../utils/getSpeciesByColour';
 import getColours from '../utils/getColours';
 import assets from '../content/assets';

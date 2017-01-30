@@ -35,26 +35,23 @@ export default class RootNavigation extends React.Component {
         initialTab="home">
         <TabNavigationItem
           id="home"
+          title="Home"
           renderIcon={isSelected => this._renderIcon('home', isSelected)}>
           <StackNavigation navigatorUID="homeStack" initialRoute="home" />
         </TabNavigationItem>
 
         <TabNavigationItem
           id="speciesFilter"
+          title="Identify"
           renderIcon={isSelected => this._renderIcon('search', isSelected)}>
           <StackNavigation navigatorUID="speciesFilterStack" initialRoute="speciesFilter" />
         </TabNavigationItem>
 
         <TabNavigationItem
           id="speciesIndex"
+          title="Index"
           renderIcon={isSelected => this._renderIcon('book', isSelected)}>
           <StackNavigation navigatorUID="speciesIndexStack" initialRoute="speciesIndex" />
-        </TabNavigationItem>
-
-        <TabNavigationItem
-          id="settings"
-          renderIcon={isSelected => this._renderIcon('cog', isSelected)}>
-          <StackNavigation navigatorUID="settingsStack" initialRoute="settings" />
         </TabNavigationItem>
       </TabNavigation>
     );
@@ -88,13 +85,3 @@ export default class RootNavigation extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  selectedTab: {
-    color: Colors.tabIconSelected,
-  },
-});

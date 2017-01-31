@@ -16,6 +16,7 @@ import {
 
 import Router from './navigation/Router';
 import cacheAssetsAsync from './utilities/cacheAssetsAsync';
+import backgroundCache from './utilities/backgroundCache';
 import values from './utils/values';
 
 class AppContainer extends React.Component {
@@ -30,7 +31,7 @@ class AppContainer extends React.Component {
   async _loadAssetsAsync() {
     try {
       await cacheAssetsAsync({
-        images: values(require('./content/assets')),
+        images: [],
         fonts: [
           FontAwesome.font,
           {'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf')},
@@ -46,23 +47,15 @@ class AppContainer extends React.Component {
       this.setState({appIsReady: true});
       setTimeout(() => {
         this._loadDeferredAssetsAsync();
-      }, 6000);
+      }, 3000);
     }
   }
 
 
-  async _loadDeferredAssetsAsync() {
-    try {
-      await cacheAssetsAsync({
-        images: values(require('./content/assets')),
-        fonts: [],
-      });
-    } catch(e) {
-      console.warn(
-        'There was an error caching deferred assets.'
-      );
-      console.log(e.message);
-    }
+  _loadDeferredAssetsAsync() {
+    backgroundCache({
+      images: values(require('./content/assets')),
+    });
   }
 
 

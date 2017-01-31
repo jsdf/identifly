@@ -11,7 +11,7 @@ import {
   TabNavigationItem,
 } from '@exponent/ex-navigation';
 import {
-  FontAwesome,
+  Entypo,
 } from '@exponent/vector-icons';
 
 import Alerts from '../constants/Alerts';
@@ -43,7 +43,7 @@ export default class RootNavigation extends React.Component {
         <TabNavigationItem
           id="speciesFilter"
           title="Identify"
-          renderIcon={isSelected => this._renderIcon('search', isSelected)}>
+          renderIcon={isSelected => this._renderIcon('magnifying-glass', isSelected)}>
           <StackNavigation navigatorUID="speciesFilterStack" initialRoute="speciesFilter" />
         </TabNavigationItem>
 
@@ -59,10 +59,11 @@ export default class RootNavigation extends React.Component {
 
   _renderIcon(name, isSelected) {
     return (
-      <FontAwesome
+      <Entypo
         name={name}
-        size={32}
+        size={30}
         color={isSelected ? Colors.tabIconSelected : Colors.tabIconDefault}
+        style={{marginBottom: -2}}
       />
     );
   }

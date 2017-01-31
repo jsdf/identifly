@@ -31,13 +31,6 @@ export default class SpeciesMatchesScreen extends React.Component {
   }
 }
 
-const captionHeight = 44;
-
-function getImageWidth(numImages) {
-  const width = Dimensions.get('window').width;
-  return numImages > 1 ? width * 0.9 : width;
-}
-
 const SpeciesTextContent = ({species}) => {
   return (
     <View>
@@ -59,7 +52,15 @@ class SpeciesDetailView extends Component {
   render() {
     const species = this.props.species;
     const assets = this.props.assets;
-    const imageWidth = getImageWidth(species.images.length);
+
+    const captionHeight = species.images.some(image =>
+      image.note
+    ) ? 66 : 44;
+
+    const winWidth = Dimensions.get('window').width;
+    const numImages = species.images.length;
+
+    const imageWidth = numImages > 1 ? winWidth * 0.9 : winWidth;
 
     return (
       <ScrollView>
@@ -68,6 +69,7 @@ class SpeciesDetailView extends Component {
             images={species.images}
             assets={assets}
             width={imageWidth}
+            captionHeight={captionHeight}
           />
         </View>
         <SpeciesTextContent species={species} />
@@ -97,6 +99,7 @@ class ImagesCarousel extends React.PureComponent {
             image={image}
             assets={this.props.assets}
             width={this.props.width}
+            captionHeight={this.props.captionHeight}
           />
         }
       />
@@ -115,7 +118,7 @@ const ImageCard = props => {
         aspectHeight={3}
         width={props.width}
       />
-      <View style={{height: captionHeight}}>
+      <View style={{height: props.captionHeight, width: props.width}}>
         <Text style={[styles.credit, styles.sideMarginsMini]}>
           Image credit: {props.image.credit}
           {props.image.note ? '\nNote: ' + props.image.note : ''}

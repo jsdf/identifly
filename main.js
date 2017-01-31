@@ -1,7 +1,6 @@
 import Exponent from 'exponent';
 import React from 'react';
 import {
-  AppRegistry,
   Platform,
   StatusBar,
   StyleSheet,
@@ -17,6 +16,7 @@ import {
 
 import Router from './navigation/Router';
 import cacheAssetsAsync from './utilities/cacheAssetsAsync';
+import values from './utils/values';
 
 class AppContainer extends React.Component {
   state = {
@@ -30,9 +30,7 @@ class AppContainer extends React.Component {
   async _loadAssetsAsync() {
     try {
       await cacheAssetsAsync({
-        images: [
-          require('./assets/images/exponent-wordmark.png'),
-        ],
+        images: values(require('./content/assets')),
         fonts: [
           FontAwesome.font,
           {'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf')},
@@ -46,8 +44,27 @@ class AppContainer extends React.Component {
       console.log(e.message);
     } finally {
       this.setState({appIsReady: true});
+      setTimeout(() => {
+        this._loadDeferredAssetsAsync();
+      }, 6000);
     }
   }
+
+
+  async _loadDeferredAssetsAsync() {
+    try {
+      await cacheAssetsAsync({
+        images: values(require('./content/assets')),
+        fonts: [],
+      });
+    } catch(e) {
+      console.warn(
+        'There was an error caching deferred assets.'
+      );
+      console.log(e.message);
+    }
+  }
+
 
   render() {
     if (this.state.appIsReady) {

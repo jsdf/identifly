@@ -5,7 +5,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { EvilIcons } from '@exponent/vector-icons';
+import { Entypo } from '@exponent/vector-icons';
+import Colors from '../constants/Colors';
 
 const ListButton = props => {
   return (
@@ -19,7 +20,7 @@ const ListButton = props => {
         <Text style={styles.buttonText}>
           {props.children}
         </Text>
-        <EvilIcons name="chevron-right" size={32} color="black"  style={styles.buttonIcon}/>
+        <Entypo name="chevron-right" size={24} color={Colors.tabIconDefault}  style={styles.buttonIcon}/>
 
       </TouchableOpacity>
     </View>

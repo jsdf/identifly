@@ -74,7 +74,7 @@ class ColourList extends React.PureComponent {
           <TouchableHighlight
             onPress={() => this._filterByColour(id)}
           >
-            <View>
+            <View style={styles.white}>
               <View style={styles.listRow}>
                 <Colours colours={colours} />
                 <View style={[styles.white, styles.listCell]}>

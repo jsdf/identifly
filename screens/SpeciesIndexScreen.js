@@ -71,6 +71,14 @@ class SpeciesList extends React.PureComponent {
   }
 
   _getFilteredDataSource = (species, filterText) => {
+    if (filterText.trim() == '') {
+      return ds.cloneWithRows(
+        this._index.map((words, i) => [words[0], i])
+          .sort((a, b) => a[0] < b[0] ? -1 : 1)
+          .map((v) => species[v[1]])
+      );
+    }
+
     const matchText = filterText.toLowerCase();
     const matcher = w => w.indexOf(matchText);
 

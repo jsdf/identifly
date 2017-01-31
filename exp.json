@@ -1,5 +1,5 @@
 {
-  "name": "identifly",
+  "name": "Identifly",
   "description": "Guidebook for Dragonflies and Damselflies of the Top End",
   "slug": "identifly",
   "privacy": "unlisted",
@@ -7,16 +7,22 @@
   "version": "1.0.0",
   "orientation": "portrait",
   "primaryColor": "#cccccc",
-  "iconUrl": "https://s3.amazonaws.com/exp-brand-assets/ExponentEmptyManifest_192.png",
+  "iconUrl": "https://s3-ap-southeast-1.amazonaws.com/identifly/appicon-gb-192.png",
   "notification": {
     "iconUrl": "https://s3.amazonaws.com/exp-us-standard/placeholder-push-icon-blue-circle.png",
     "color": "#000000"
   },
   "loading": {
-    "iconUrl": "https://s3.amazonaws.com/exp-brand-assets/ExponentEmptyManifest_192.png",
-    "hideExponentText": false
+    "iconUrl": "https://s3-ap-southeast-1.amazonaws.com/identifly/appicon-gb-192.png",
+    "hideExponentText": true
   },
   "packagerOpts": {
     "assetExts": ["ttf"]
+  },
+  "ios": {
+    "bundleIdentifier": "com.identiflyapp.identifly",
+  },
+  "android": {
+    "package": "com.identiflyapp.identifly",
   }
 }

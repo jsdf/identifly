@@ -30,12 +30,13 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
+    const shortScreen = Dimensions.get('window').height < 600;
     return (
       <View style={[styles.container, styles.contentContainer]}>
         <KenBurns
           imageAssets={imageAssets}
-          aspectWidth={4}
-          aspectHeight={3}
+          aspectWidth={shortScreen ? 16 : 4}
+          aspectHeight={shortScreen ? 9 : 3}
           width={Dimensions.get('window').width}
         />
         <View style={styles.welcomeContainer}>
@@ -127,10 +128,12 @@ const styles = StyleSheet.create({
     lineHeight: 23,
     textAlign: 'center',
   },
-  title: {
+  title: Platform.OS === 'ios' ? {
     lineHeight: 22,
     fontSize: 24,
     paddingTop: 2,
+  } : {
+    fontSize: 24,
   },
   subtitle: {
     fontSize: 18,

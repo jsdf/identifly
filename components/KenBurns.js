@@ -3,10 +3,7 @@ import {
   View,
   Animated,
   Easing,
-  Text,
-  Image,
 } from 'react-native';
-import Exponent from 'exponent';
 import {knuthShuffle} from 'knuth-shuffle';
 
 import speciesStyles from './speciesStyles';
@@ -66,8 +63,7 @@ export default class KenBurns extends React.Component {
   }
 
   render() {
-    const heightForWidth = this.props.aspectHeight / this.props.aspectWidth;
-    const height = heightForWidth * this.props.width;
+    const height = this.props.height;
     const width = this.props.width;
 
     const images = this.state.images.map(({index, prepare, show}) => {

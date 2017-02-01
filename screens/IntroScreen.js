@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 
 import {IntroContent} from '../pages/PagesContent';
+import ExpensiveScene from '../components/ExpensiveScene';
 export default class IntroScreen extends React.Component {
   static route = {
     navigationBar: {
@@ -18,9 +19,11 @@ export default class IntroScreen extends React.Component {
       <ScrollView
         style={styles.container}
       >
-        <View style={styles.sideMargins}>
-          <IntroContent />
-        </View>
+        <ExpensiveScene>
+          <View style={styles.sideMargins}>
+            <IntroContent />
+          </View>
+        </ExpensiveScene>
       </ScrollView>
     );
   }

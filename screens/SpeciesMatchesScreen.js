@@ -4,26 +4,25 @@ import {
   ListView,
   StyleSheet,
   TouchableHighlight,
-  TouchableOpacity,
   Text,
-  Dimensions,
 } from 'react-native';
 
+import getWindowDimensions from '../utils/getWindowDimensions';
 import ListButton from '../components/ListButton';
 import speciesStyles from '../components/speciesStyles';
 import AspectRatioImage from '../components/AspectRatioImage';
 import firstCap from '../utils/firstCap';
-import getColours from '../utils/getColours';
-import getSpeciesByColour from '../utils/getSpeciesByColour';
 import simpleMemoize from '../utils/simpleMemoize';
 
 import Router from '../navigation/Router';
 
 const allSpecies = require('../content/species.json');
+const speciesByColour = require('../content/speciesByColour.json');
+const coloursSorted = require('../content/coloursSorted.json');
+
 import assets from '../content/assets';
 
 function getColoursMap() {
-  const coloursSorted = getColours(getSpeciesByColour(allSpecies));
   const coloursMap = {};
   coloursSorted.forEach(c => coloursMap[c.id] = c);
   return coloursMap;
@@ -52,7 +51,6 @@ export default class SpeciesMatchesScreen extends React.Component {
   render() {
     return (
       <SpeciesList
-        species={allSpecies}
         assets={assets}
         route={this.props.route}
         navigator={this.props.navigator}
@@ -66,7 +64,7 @@ const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 class SpeciesList extends React.PureComponent {
   constructor(props) {
     super(props);
-    this._speciesByColour = getSpeciesByColour(allSpecies);
+    this._speciesByColour = speciesByColour;
 
 
     this.state = {
@@ -84,7 +82,7 @@ class SpeciesList extends React.PureComponent {
     return ds.cloneWithRows(
       this._speciesByColour[props.route.params.colour]
         .sort((a, b) => a.weight < b.weight ? -1 : 1)
-        .map(({speciesIndex}) => this.props.species[speciesIndex])
+        .map(({speciesIndex}) => allSpecies[speciesIndex])
     );
   }
 
@@ -182,7 +180,7 @@ const ImageCard = props => {
        asset={imageAsset}
        aspectWidth={4}
        aspectHeight={3}
-       width={Dimensions.get('window').width}
+       width={getWindowDimensions().width}
      />
   );
 };

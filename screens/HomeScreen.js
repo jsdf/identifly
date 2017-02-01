@@ -4,9 +4,9 @@ import {
   StyleSheet,
   Text,
   View,
-  Dimensions,
 } from 'react-native';
 
+import getWindowDimensions from '../utils/getWindowDimensions';
 import {
   withNavigation,
 } from '@exponent/ex-navigation';
@@ -30,14 +30,20 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
-    const shortScreen = Dimensions.get('window').height < 600;
+    const screen = getWindowDimensions();
+    const tinyScreen = screen.height < 481;
+    const kenBurnsAspectRatio = screen.height < 600 ? (9 / 16) : (3 / 4);
+    const kenBurnsHeight = tinyScreen ? 140 : kenBurnsAspectRatio * screen.width;
+
     return (
-      <View style={[styles.container, styles.contentContainer]}>
+      <View style={[
+        styles.container,
+        {paddingTop: tinyScreen ? 20 : 44},
+      ]}>
         <KenBurns
           imageAssets={imageAssets}
-          aspectWidth={shortScreen ? 16 : 4}
-          aspectHeight={shortScreen ? 9 : 3}
-          width={Dimensions.get('window').width}
+          height={kenBurnsHeight}
+          width={getWindowDimensions().width}
         />
         <View style={styles.welcomeContainer}>
           <Text style={[styles.title]}>
@@ -51,7 +57,9 @@ export default class HomeScreen extends React.Component {
           </Text>
         </View>
 
-        <View style={styles.mainButton}>
+        <View style={{
+          marginBottom: tinyScreen ? 0 : 16,
+        }}>
           <Button onPress={this._handleFilterPress} type="primary">
             Find a Species
           </Button>
@@ -100,15 +108,9 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ccc',
     borderBottomWidth: 1,
   },
-  mainButton: {
-    marginBottom: 16,
-  },
   lightText: {
     color: 'rgba(0,0,0,0.5)',
     fontSize: 15,
-  },
-  contentContainer: {
-    paddingTop: 44,
   },
   welcomeContainer: {
     margin: 16,

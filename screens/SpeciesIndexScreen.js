@@ -110,6 +110,8 @@ class SpeciesList extends React.PureComponent {
         <View style={styles.line} />
         <ListView
           enableEmptySections
+          initialListSize={10}
+          removeClippedSubviews
           style={styles.listTable}
           dataSource={this.state.dataSource}
           renderRow={this._renderRow}

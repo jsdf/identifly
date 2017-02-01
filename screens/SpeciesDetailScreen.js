@@ -3,7 +3,6 @@ import {
   ListView,
   Text,
   View,
-  Dimensions,
   ScrollView,
 } from 'react-native';
 import styles from '../components/speciesStyles';
@@ -12,6 +11,7 @@ import firstCap from '../utils/firstCap';
 
 import assets from '../content/assets';
 
+import getWindowDimensions from '../utils/getWindowDimensions';
 export default class SpeciesMatchesScreen extends React.Component {
   static route = {
     navigationBar: {
@@ -57,7 +57,7 @@ class SpeciesDetailView extends Component {
       image.note
     ) ? 66 : 44;
 
-    const winWidth = Dimensions.get('window').width;
+    const winWidth = getWindowDimensions().width;
     const numImages = species.images.length;
 
     const imageWidth = numImages > 1 ? winWidth * 0.9 : winWidth;

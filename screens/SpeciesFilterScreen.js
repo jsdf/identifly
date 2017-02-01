@@ -10,10 +10,8 @@ import {
 import Router from '../navigation/Router';
 import speciesStyles from '../components/speciesStyles';
 
-import getSpeciesByColour from '../utils/getSpeciesByColour';
-import getColours from '../utils/getColours';
 import assets from '../content/assets';
-const allSpecies = require('../content/species.json');
+const coloursSorted = require('../content/coloursSorted.json');
 
 const COLOURMAP = {
   black: '#110F02',
@@ -44,7 +42,6 @@ export default class SpeciesFilterScreen extends React.Component {
           <Text>What is the most prominent colour you can see?</Text>
         </View>
         <ColourList
-          species={allSpecies}
           assets={assets}
           navigator={this.props.navigator}
         />
@@ -58,8 +55,6 @@ class ColourList extends React.PureComponent {
     super(props);
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-    const coloursSorted = getColours(getSpeciesByColour(allSpecies));
-
     this.state = {
       dataSource: ds.cloneWithRows(coloursSorted),
     };
@@ -70,22 +65,8 @@ class ColourList extends React.PureComponent {
       <ListView
         style={[styles.container, styles.white]}
         dataSource={this.state.dataSource}
-        renderRow={({id, colours, label}) =>
-          <TouchableHighlight
-            onPress={() => this._filterByColour(id)}
-          >
-            <View style={styles.white}>
-              <View style={styles.listRow}>
-                <Colours colours={colours} />
-                <View style={[styles.white, styles.listCell]}>
-                  <View>
-                    <Text>{label}</Text>
-                  </View>
-                </View>
-              </View>
-              <View style={styles.separator} />
-            </View>
-          </TouchableHighlight>
+        renderRow={(row) =>
+          <Row {...row} onPress={this._filterByColour} />
         }
       />
     );
@@ -94,6 +75,32 @@ class ColourList extends React.PureComponent {
   _filterByColour = (colour) => {
     this.props.navigator.push(Router.getRoute('matches', {colour}));
   };
+}
+
+class Row extends React.PureComponent {
+  render() {
+    return (
+      <View style={styles.rowClip}>
+        <TouchableHighlight
+          onPress={this._onPress}
+        >
+          <View style={styles.white}>
+            <View style={styles.listRow}>
+              <Colours colours={this.props.colours} />
+              <View style={[styles.white, styles.listCell]}>
+                <View>
+                  <Text>{this.props.label}</Text>
+                </View>
+              </View>
+            </View>
+            <View style={styles.separator} />
+          </View>
+        </TouchableHighlight>
+      </View>
+    );
+  }
+
+  _onPress = () => this.props.onPress(this.props.id);
 }
 
 const Colours = ({colours}) => (
@@ -119,6 +126,9 @@ const Colours = ({colours}) => (
 );
 
 const styles = StyleSheet.create({
+  rowClip: {
+    overflow: 'hidden',
+  },
   white: {
     backgroundColor: 'white',
   },

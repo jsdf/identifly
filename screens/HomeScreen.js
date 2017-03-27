@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Linking,
   Platform,
   StyleSheet,
   Text,
@@ -38,13 +39,17 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={[
         styles.container,
-        {paddingTop: tinyScreen ? 20 : 44},
+        {paddingTop: 20},
       ]}>
-        <KenBurns
-          imageAssets={imageAssets}
-          height={kenBurnsHeight}
-          width={getWindowDimensions().width}
-        />
+        {
+          !tinyScreen && (
+            <KenBurns
+              imageAssets={imageAssets}
+              height={kenBurnsHeight}
+              width={getWindowDimensions().width}
+            />
+          )
+        }
         <View style={styles.welcomeContainer}>
           <Text style={[styles.title]}>
             Identifly
@@ -58,7 +63,7 @@ export default class HomeScreen extends React.Component {
         </View>
 
         <View style={{
-          marginBottom: tinyScreen ? 0 : 16,
+          marginBottom: screen.height < 600 ? 0 : 16,
         }}>
           <Button onPress={this._handleFilterPress} type="primary">
             Find a Species
@@ -72,6 +77,9 @@ export default class HomeScreen extends React.Component {
           <ListButton onPress={this._goToAck}>
             Acknowledgements
           </ListButton>
+          <ListButton onPress={this._goToSubmit}>
+            Submit Photo
+          </ListButton>
         </View>
       </View>
     );
@@ -83,6 +91,10 @@ export default class HomeScreen extends React.Component {
 
   _goToAck = () => {
     this.props.navigator.push(Router.getRoute('ack'));
+  };
+
+  _goToSubmit = () => {
+    Linking.openURL('https://identiflyapp.com/competition.html');
   };
 
   _handleFilterPress = () => {

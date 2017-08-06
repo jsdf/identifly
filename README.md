@@ -1,10 +1,10 @@
-# Identifly app source
+# Identifly app
 
-This is the source of [Identifly](https://identiflyapp.com/), an app for identifying dragonflies and damselflies.
+This is the source of [Identifly](https://identiflyapp.com/), an app for identifying dragonflies and damselflies. It's built with React Native and [Expo](https://expo.io).
 
-To build it:
+To run the app:
 
-Install [Expo XDE](https://expo.io/)
+Install [Expo XDE](https://expo.io/tools), then:
 
 ```bash
 git clone https://github.com/jsdf/identifly.git
@@ -17,11 +17,13 @@ npm run build-content-indexes
 xde # open this directory using Expo XDE
 ```
 
-launch the simulator from the 'device' menu
+Launch the simulator from the 'device' menu in XDE.
+
+## Customizing
 
 Metadata for the app can be configured in `exp.json`
 
-## Species content
+### Species content
 
 Content for each species is defined in folders in `content-source/species`. Each species has
 

@@ -2,7 +2,17 @@
 
 This is the source of [Identifly](https://identiflyapp.com/), an app for identifying dragonflies and damselflies. It's built with React Native and [Expo](https://expo.io).
 
-To run the app:
+
+  <div id="screens" style="overflow-x: scroll; margin-top: 0px; margin-bottom: 20px">
+    <div style="text-align: center">
+      <img height="348" src="https://identiflyapp.com/screen696x696-2.jpeg" />
+      <img height="348" src="https://identiflyapp.com/screen696x696-3.jpeg" />
+      <img height="348" src="https://identiflyapp.com/screen696x696.jpeg" />
+      <img height="348" src="https://identiflyapp.com/screen696x696-4.jpeg" />
+    </div>
+  </div>
+
+## Build/run instructions
 
 Install [Expo XDE](https://expo.io/tools), then:
 

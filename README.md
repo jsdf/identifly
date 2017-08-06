@@ -6,18 +6,20 @@ To build it:
 
 Install [Expo XDE](https://expo.io/)
 
+```bash
+git clone https://github.com/jsdf/identifly.git
+cd identifly
+npm install
 
-`npm install`
+npm run build-content
+npm run build-content-indexes
 
-`npm run build-content`
-`npm run build-content-indexes`
-
-`xde` to open this directory using Expo XDE
+xde # open this directory using Expo XDE
+```
 
 launch the simulator from the 'device' menu
 
 Metadata for the app can be configured in `exp.json`
-
 
 ## Species content
 

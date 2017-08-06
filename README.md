@@ -1,6 +1,6 @@
 # Identifly app
 
-This is the source of [Identifly](https://identiflyapp.com/), an app for identifying dragonflies and damselflies. It's built with React Native and [Expo](https://expo.io).
+This is the source of [Identifly](https://identiflyapp.com/), an app for identifying dragonflies and damselflies. It's built with React Native and [Expo](https://expo.io). It's released under the MIT License, so feel free to use this code however you like (including as a starting point for your own app).
 
 
   <div id="screens" style="overflow-x: scroll; margin-top: 0px; margin-bottom: 20px">

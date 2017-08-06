@@ -1,0 +1,41 @@
+family: Libellulidae
+species: Rhyothemis phyllis
+common: Yellow-striped Flutterer/ Yellow-barred Flutterer
+discovered by: Sulzer
+type: dragonfly
+
+[sizes]
+* medium
+
+[bodycolours]
+* black
+
+[wingcolours]
+* brown
+* yellow
+
+[weights]
+colour: black
+weight: 4
+
+[images]
+filename: R.phyllis.3.jpg
+credit: Jenny Davis
+[.colours]
+* yellow
+* black
+[]
+
+filename: R.phyllis.1.jpg
+credit: Jenny Davis
+[.colours]
+* yellow
+* black
+[]
+
+filename: R.phyllis.2.jpg
+credit: Jenny Davis
+[.colours]
+* yellow
+* black
+[]

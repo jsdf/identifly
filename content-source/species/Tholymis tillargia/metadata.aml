@@ -1,0 +1,27 @@
+family: Libellulidae
+species: Tholymis tillarga
+common: coral-tailed cloudwing
+discovered by: Fabricius
+type: dragonfly
+
+[sizes]
+* medium
+
+[bodycolours]
+* brown
+
+[wingcolours]
+* clear
+* brown
+
+[weights]
+colour: brown
+weight: 1
+
+[images]
+filename: T.tillargia.jpg
+credit: Jenny Davis
+note: This specimen was photographed resting on vegetation near Jabiru Airport, at midday.
+[.colours]
+* brown
+[]

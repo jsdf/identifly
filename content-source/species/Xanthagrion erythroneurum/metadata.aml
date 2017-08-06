@@ -1,0 +1,32 @@
+family: Coenagrionidae
+species: Xanthagrion erythroneurum
+common: red and blue damsel
+discovered by: Selys
+type: damselfly
+
+[sizes]
+* small
+* medium
+
+[bodycolours]
+* red
+* orange
+* blue
+
+[wingcolours]
+* clear
+
+[weights]
+colour: red
+weight: 7
+colour: blue
+weight: 6
+
+[images]
+filename: X.erythroneurum.jpg
+credit: Jenny Davis
+[.colours]
+* red
+* orange
+* blue
+[]

@@ -6,7 +6,8 @@
   "main": "main.js",
   "scripts": {
     "test": "jest",
-    "generate": "./node_modules/.bin/babel-node scripts/generate.js"
+    "build-content": "node scripts/build-content.js",
+    "build-content-indexes": "./node_modules/.bin/babel-node scripts/build-content-indexes.js"
   },
   "jest": {
     "preset": "jest-exponent"
@@ -20,13 +21,16 @@
     "exponent": "~12.0.0",
     "knuth-shuffle": "^1.0.1",
     "react": "~15.3.2",
-    "react-native": "github:exponentjs/react-native#sdk-12.0.0"
+    "react-native": "github:exponentjs/react-native#sdk-12.0.0",
+    "react-native-sentry": "^0.5.2"
   },
   "devDependencies": {
+    "archieml": "^0.4.2",
     "babel-cli": "^6.22.2",
     "babel-eslint": "^7.1.1",
     "eslint": "^3.10.2",
     "eslint-plugin-react": "^6.7.1",
+    "glob": "^7.1.1",
     "jest-exponent": "~0.1.3"
   }
 }

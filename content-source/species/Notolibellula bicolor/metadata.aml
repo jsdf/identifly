@@ -1,0 +1,30 @@
+family: Libellulidae
+species: Notolibellula bicolor
+common: bicoloured skimmer
+discovered by: Thieschinger & Watson
+type: dragonfly
+
+[sizes]
+* medium
+
+[bodycolours]
+* blue
+* red
+
+[wingcolours]
+* clear
+
+[weights]
+colour: red
+weight: 6
+colour: blue
+weight: 3
+
+[images]
+filename: N.bicolor.jpg
+credit: Jenny Davis
+note: This specimen was photographed at Butterfly Gorge.
+[.colours]
+* blue
+* red
+[]

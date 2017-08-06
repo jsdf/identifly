@@ -13,11 +13,14 @@ import {
 import {
   FontAwesome,
 } from '@exponent/vector-icons';
+import { Sentry } from 'react-native-sentry';
 
 import Router from './navigation/Router';
 import cacheAssetsAsync from './utilities/cacheAssetsAsync';
 import backgroundCache from './utilities/backgroundCache';
 import values from './utils/values';
+
+Sentry.config('https://b9a5b32c9b7e429cae32082a9c946aa4:a06d9e13184f4283ad627956eb5db6b5@sentry.io/152097').install();
 
 class AppContainer extends React.Component {
   state = {

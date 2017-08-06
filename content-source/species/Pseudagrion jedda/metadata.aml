@@ -1,0 +1,28 @@
+family: Coenagrionidae
+species: Pseudagrion jedda
+common: dusky riverdamsel
+discovered by: Watson & Thieschinger
+type: damselfly
+
+[sizes]
+* large
+
+[bodycolours]
+* brown
+* blue
+* grey
+
+[wingcolours]
+* clear
+
+[weights]
+colour: brown
+weight: 4
+
+[images]
+filename: P.jedda.jpg
+credit: Jenny Davis
+[.colours]
+* blue
+* brown
+[]

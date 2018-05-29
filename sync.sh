@@ -10,7 +10,6 @@ rsync -av --delete \
   --filter 'protect sync.sh' \
   --filter 'protect templatize.js' \
   --filter 'protect content-source' \
-  --filter 'protect scripts' \
   --filter 'protect LICENSE' \
   --filter 'protect README.md' \
   ../identifly-app/ ./

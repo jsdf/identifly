@@ -1,27 +1,19 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import { Entypo } from '@exponent/vector-icons';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Entypo} from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 
 const ListButton = props => {
   return (
     <View style={styles.buttonRow}>
-      <TouchableOpacity
-        onPress={props.onPress}
-        style={[
-          styles.button,
-        ]}
-      >
-        <Text style={styles.buttonText}>
-          {props.children}
-        </Text>
-        <Entypo name="chevron-right" size={24} color={Colors.tabIconDefault}  style={styles.buttonIcon}/>
-
+      <TouchableOpacity onPress={props.onPress} style={[styles.button]}>
+        <Text style={styles.buttonText}>{props.children}</Text>
+        <Entypo
+          name="chevron-right"
+          size={24}
+          color={Colors.tabIconDefault}
+          style={styles.buttonIcon}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -35,9 +27,9 @@ const styles = StyleSheet.create({
   button: {
     height: 44,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
-  buttonIcon:  {
+  buttonIcon: {
     width: 50,
     textAlign: 'right',
   },

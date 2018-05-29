@@ -1,9 +1,5 @@
-import {
-  Image,
-} from 'react-native';
-import {
-  Asset,
-} from 'exponent';
+import {Image} from 'react-native';
+import {Asset} from 'expo';
 
 import queue from 'async/queue';
 
@@ -14,9 +10,7 @@ export default function backgroundCache({images = []}) {
     cacheImage(image)
       .then(done)
       .catch(e => {
-        console.warn(
-          'There was an error caching deferred assets.'
-        );
+        console.warn('There was an error caching deferred assets.');
         console.log(e.message);
       });
   }, CONCURRENCY);

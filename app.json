@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "Identifly-OpenSource",
+    "description": "[description goes here]",
+    "slug": "identifly-opensource",
+    "privacy": "unlisted",
+    "sdkVersion": "27.0.0",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "loading": {
+      "hideExponentText": true
+    },
+    "packagerOpts": {
+      "assetExts": [
+        "ttf"
+      ]
+    },
+    "ios": {
+      "bundleIdentifier": "com.yourapp.identifly-os",
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.yourapp.identifly-os"
+    }
+  }
+}

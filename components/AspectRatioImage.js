@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Image,
-} from 'react-native';
+import {View, Image} from 'react-native';
 
 export default class AspectRatioImage extends React.Component {
   render() {
@@ -34,7 +31,7 @@ export default class AspectRatioImage extends React.Component {
     }
   }
 
-  _setRef = (el) => {
+  _setRef = el => {
     this._ref = el;
-  }
+  };
 }

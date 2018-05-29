@@ -1,31 +1,23 @@
-import Exponent from 'exponent';
+import Exponent from 'expo';
 import React from 'react';
-import {
-  Platform,
-  StatusBar,
-  StyleSheet,
-  View,
-} from 'react-native';
-import {
-  NavigationProvider,
-  StackNavigation,
-} from '@exponent/ex-navigation';
-import {
-  FontAwesome,
-} from '@exponent/vector-icons';
-import { Sentry } from 'react-native-sentry';
+import {Platform, StatusBar, StyleSheet, View} from 'react-native';
+import {NavigationProvider, StackNavigation} from '@expo/ex-navigation';
+import {FontAwesome} from '@expo/vector-icons';
+import {Sentry} from 'react-native-sentry';
 
 import Router from './navigation/Router';
 import cacheAssetsAsync from './utilities/cacheAssetsAsync';
 import backgroundCache from './utilities/backgroundCache';
 import values from './utils/values';
 
-Sentry.config('https://b9a5b32c9b7e429cae32082a9c946aa4:a06d9e13184f4283ad627956eb5db6b5@sentry.io/152097').install();
+Sentry.config(
+  'https://b9a5b32c9b7e429cae32082a9c946aa4:a06d9e13184f4283ad627956eb5db6b5@sentry.io/152097'
+).install();
 
-class AppContainer extends React.Component {
+export default class AppContainer extends React.Component {
   state = {
     appIsReady: false,
-  }
+  };
 
   componentWillMount() {
     this._loadAssetsAsync();
@@ -40,10 +32,10 @@ class AppContainer extends React.Component {
           {'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf')},
         ],
       });
-    } catch(e) {
+    } catch (e) {
       console.warn(
         'There was an error caching assets (see: main.js), perhaps due to a ' +
-        'network timeout, so we skipped caching. Reload the app to try again.'
+          'network timeout, so we skipped caching. Reload the app to try again.'
       );
       console.log(e.message);
     } finally {
@@ -54,30 +46,31 @@ class AppContainer extends React.Component {
     }
   }
 
-
   _loadDeferredAssetsAsync() {
     backgroundCache({
       images: values(require('./content/assets')),
     });
   }
 
-
   render() {
     if (this.state.appIsReady) {
       return (
         <View style={styles.container}>
           <NavigationProvider router={Router}>
-            <StackNavigation id="root" initialRoute={Router.getRoute('rootNavigation')} />
+            <StackNavigation
+              id="root"
+              initialRoute={Router.getRoute('rootNavigation')}
+            />
           </NavigationProvider>
 
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
+          {Platform.OS === 'android' && (
+            <View style={styles.statusBarUnderlay} />
+          )}
         </View>
       );
     } else {
-      return (
-        <Exponent.Components.AppLoading />
-      );
+      return <Exponent.AppLoading />;
     }
   }
 }
@@ -92,5 +85,3 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.2)',
   },
 });
-
-Exponent.registerRootComponent(AppContainer);

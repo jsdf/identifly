@@ -1,18 +1,12 @@
 import React from 'react';
-import {
-  StyleSheet,
-} from 'react-native';
-import {
-  Notifications,
-} from 'exponent';
+import {StyleSheet} from 'react-native';
+import {Notifications} from 'expo';
 import {
   StackNavigation,
   TabNavigation,
   TabNavigationItem,
-} from '@exponent/ex-navigation';
-import {
-  Entypo,
-} from '@exponent/vector-icons';
+} from '@expo/ex-navigation';
+import {Entypo} from '@expo/vector-icons';
 
 import Alerts from '../constants/Alerts';
 import Colors from '../constants/Colors';
@@ -32,26 +26,38 @@ export default class RootNavigation extends React.Component {
       <TabNavigation
         tabBarHeight={56}
         navigatorUID="mainTabset"
-        initialTab="home">
+        initialTab="home"
+      >
         <TabNavigationItem
           id="home"
           title="Home"
-          renderIcon={isSelected => this._renderIcon('home', isSelected)}>
+          renderIcon={isSelected => this._renderIcon('home', isSelected)}
+        >
           <StackNavigation navigatorUID="homeStack" initialRoute="home" />
         </TabNavigationItem>
 
         <TabNavigationItem
           id="speciesFilter"
           title="Identify"
-          renderIcon={isSelected => this._renderIcon('magnifying-glass', isSelected)}>
-          <StackNavigation navigatorUID="speciesFilterStack" initialRoute="speciesFilter" />
+          renderIcon={isSelected =>
+            this._renderIcon('magnifying-glass', isSelected)
+          }
+        >
+          <StackNavigation
+            navigatorUID="speciesFilterStack"
+            initialRoute="speciesFilter"
+          />
         </TabNavigationItem>
 
         <TabNavigationItem
           id="speciesIndex"
           title="Index"
-          renderIcon={isSelected => this._renderIcon('book', isSelected)}>
-          <StackNavigation navigatorUID="speciesIndexStack" initialRoute="speciesIndex" />
+          renderIcon={isSelected => this._renderIcon('book', isSelected)}
+        >
+          <StackNavigation
+            navigatorUID="speciesIndexStack"
+            initialRoute="speciesIndex"
+          />
         </TabNavigationItem>
       </TabNavigation>
     );
@@ -76,7 +82,9 @@ export default class RootNavigation extends React.Component {
     // registerForPushNotificationsAsync();
 
     // Watch for incoming notifications
-    this._notificationSubscription = Notifications.addListener(this._handleNotification);
+    this._notificationSubscription = Notifications.addListener(
+      this._handleNotification
+    );
   }
 
   _handleNotification = ({origin, data}) => {
@@ -84,5 +92,5 @@ export default class RootNavigation extends React.Component {
       `Push notification ${origin} with data: ${JSON.stringify(data)}`,
       Alerts.notice
     );
-  }
+  };
 }

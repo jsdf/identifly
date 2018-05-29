@@ -1,6 +1,4 @@
-import {
-  createRouter,
-} from '@exponent/ex-navigation';
+import {createRouter} from '@expo/ex-navigation';
 
 import HomeScreen from '../screens/HomeScreen';
 import SpeciesFilterScreen from '../screens/SpeciesFilterScreen';

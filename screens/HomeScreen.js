@@ -1,8 +1,8 @@
 import React from 'react';
-import {Linking, Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, Text, View} from 'react-native';
 
 import getWindowDimensions from '../utils/getWindowDimensions';
-import {withNavigation} from '@exponent/ex-navigation';
+import {withNavigation} from '@expo/ex-navigation';
 import KenBurns from '../components/KenBurns';
 import Button from '../components/Button';
 import ListButton from '../components/ListButton';
@@ -32,12 +32,13 @@ export default class HomeScreen extends React.Component {
 
     return (
       <View style={[styles.container, {paddingTop: 20}]}>
-        {!tinyScreen &&
+        {!tinyScreen && (
           <KenBurns
             imageAssets={imageAssets}
             height={kenBurnsHeight}
             width={getWindowDimensions().width}
-          />}
+          />
+        )}
         <View style={styles.welcomeContainer}>
           <Text style={[styles.title]}>Identifly</Text>
           <Text style={[styles.lightText, styles.subtitle]}>
@@ -61,7 +62,6 @@ export default class HomeScreen extends React.Component {
         <View style={styles.buttonList}>
           <ListButton onPress={this._goToIntro}>Introduction</ListButton>
           <ListButton onPress={this._goToAck}>Acknowledgements</ListButton>
-          <ListButton onPress={this._goToWebsite}>Website</ListButton>
         </View>
       </View>
     );
@@ -73,10 +73,6 @@ export default class HomeScreen extends React.Component {
 
   _goToAck = () => {
     this.props.navigator.push(Router.getRoute('ack'));
-  };
-
-  _goToWebsite = () => {
-    Linking.openURL('https://identiflyapp.com/');
   };
 
   _handleFilterPress = () => {

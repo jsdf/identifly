@@ -31,7 +31,7 @@ Launch the simulator from the 'device' menu in XDE.
 
 ## Customizing
 
-Metadata for the app can be configured in `exp.json`
+Metadata for the app can be configured in `app.json`
 
 ### Species content
 

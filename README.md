@@ -14,7 +14,7 @@ This is the source of [Identifly](https://identiflyapp.com/), an app for identif
 
 ## Build/run instructions
 
-Install [Expo XDE](https://expo.io/tools), then:
+Install [Expo XDE](https://expo.io/tools), (known compatible version: [v2.24.4](https://github.com/expo/xde/releases/tag/v2.24.4)), then:
 
 ```bash
 git clone https://github.com/jsdf/identifly.git
